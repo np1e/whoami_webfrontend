@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="route" class="nav-link">
+    <router-link :to="route" class="nav__item opacity-90 hover:opacity-100">
         <slot/>
     </router-link>
 </template>
@@ -15,16 +15,5 @@ export default {
 </script>
 
 <style lang="scss">
-.nav-link {
-    border-bottom: solid 2px transparent;
-
-    &:hover {
-        border-bottom: solid 2px var(--primary);
-    }
-
-    &.router-link-exact-active {
-        border-bottom: solid 2px var(--primary);
-    }
-}
 
 </style>

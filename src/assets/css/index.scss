@@ -1,8 +1,29 @@
 
 :root {
-    --primary: #10B981;
-    --secondary: red;
+    --primary: #AC3B61;
+    --primary-dark: #811a3c;
+    --secondary: #123C69;
+    --background: #fbf7ed;
+    --light-gray: #FAFAFA;
+    --dark-accent: #BAB2B5;
+    --light-accent: #EDC7B7;
 }
+
 body {
-    font-size: 16px;;
+    font-size: 18px;
+    color: var(--secondary);
 }
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary);
+    font-weight: 600
+}
+
+h2 {
+    margin: 2rem 0;
+}
+
+h3 {
+    margin: 1rem 0;
+}
+

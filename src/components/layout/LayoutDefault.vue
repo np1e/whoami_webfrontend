@@ -1,9 +1,6 @@
 <template>
-  <div class="layout-default container flex flex-col h-screen justify-between py-4">
-    <nav class="flex justify-left space-x-6 mb-8">
-      <nav-link route="/">Home</nav-link>
-      <nav-link route="/about">About</nav-link>
-    </nav>
+  <div class="layout-default container max-w-screen-2xl flex flex-col h-screen justify-between py-4">
+    <navigation />
     <main class="mb-auto">
       <slot/>
     </main>
@@ -12,15 +9,22 @@
 </template>
 
 <script>
-import NavLink from '../NavLink.vue';
+import Navigation from './Navigation.vue';
 import Footer from './Footer.vue';
 
 export default {
     name: "DefaultLayout",
+    data: function() {
+      return {
+      }
+    },
     components: {
-        NavLink,
+        Navigation,
         "custom-footer": Footer
-    }
+    },
+    methods: {
+      
+    },
 }
 </script>
 
