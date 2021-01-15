@@ -6,14 +6,15 @@
 
 <script>
 import NavLink from './components/NavLink.vue';
+
 export default {
   name: 'App',
-  components: [
+  components: {
     NavLink
-  ],
+  },
   data: function() {
     return {
-      layout: 'div',
+      layout: 'div'
     }
   }
 }

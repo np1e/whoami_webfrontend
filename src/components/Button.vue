@@ -1,14 +1,19 @@
 <template>
-    <button :type="type || 'button'" class="button shadow-md text-gray bg-primary rounded px-md py-sm hover:bg-primary-dark transition-colors">
+    <button @click="$emit('click', $event.target.value)" :type="type || 'button'" 
+    :class="{'running': loading }"
+    class="button ld-ext-right shadow-md text-light-gray bg-primary rounded px-md py-sm hover:bg-primary-dark transition-colors">
         <slot/>
+        <div class="ld ld-ring ld-spin" style="color:#fff"></div>
     </button>
 </template>
 
 <script>
 export default {
     name: 'CustomButton',
+    emits: ['click'],
     props: {
-        type: String
+        type: String,
+        loading: Boolean
     },
 }
 </script>

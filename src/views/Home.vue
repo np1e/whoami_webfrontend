@@ -8,16 +8,21 @@
           </h1>
         </div>
         <div class="homepage-hero__creategame">
-          <form method="post" action="/game" class="">
+          <form id="create-game_form" method="post" @submit.prevent="submitCreateForm" class="">
             <div class="flex flex-col sm:flex-row sm:space-x-4">
-              <input
-                required
-                placeholder="Enter a name for your game"
-                class="sm:w-1/2 h-14 transition-all flex-1 placeholder-color-dark-accent rounded-md border border-gray px-md appearance-none focus:outline-none focus:ring-2 focus:ring-primary text-lg"
-              />
+              <div class="flex flex-col sm:w-1/2">
+                <input v-model="game_name"
+                  placeholder="Enter a name for your game"
+                  :class="[ error ? 'border-red-500' : 'border-gray' ]"
+                  class="h-14 transition-all flex-1 placeholder-color-dark-accent rounded-md border px-md appearance-none focus:outline-none focus:ring-2 focus:ring-primary text-lg"
+                />
+              </div>
               <custom-button class="mt-4 sm:mt-0" type="submit">Create Game</custom-button>
             </div>
           </form>
+          <span v-if="error" class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                  Please enter a name for your game!
+                </span>
         </div>
       </div>
     </section>
@@ -109,9 +114,41 @@ export default {
   components: {
     "custom-button": Button,
   },
+  data: function() {
+    return {
+      game_name: "",
+      error: false
+    }
+  },
   created: function () {
     this.$emit("update:layout", LayoutDefault);
   },
+  methods: {
+    submitCreateForm: function() {
+      if (!this.game_name) {
+        this.error = true;
+        return;
+      }
+
+      this.createPlayer();
+    },
+    createPlayer: function() {
+      this.$api.createPlayer(this.createGame, (error_status, error_msg) => {
+        console.log(error_status, error_msg);
+      });
+    },
+    createGame: function(player) {
+      console.log(player);
+      this.$api.createGame(this.game_name, player.id, 
+        response => {
+          let game = response.game;
+          this.$router.push({ path: `/game/${game.id}` });
+        },
+        (error_status, error_msg) => {
+          console.log(error_status, error_msg);
+        });
+    }
+  }
 };
 </script>
 
