@@ -7,15 +7,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: 'var(--primary)',
-          dark: 'var(--primary-dark)'
-        },
-        secondary: 'var(--secondary)',
-        'light-gray': 'var(--light-gray)',
+        primary: 'var(--primary)',
         background: 'var(--background)',
-        'dark-accent': 'var(--dark-accent)',
-        'light-accent': 'var(--light-accent)',
       },
       padding: {
         xs: '4px',
@@ -35,9 +28,13 @@ module.exports = {
       center: true,
     },
   },
+  stroke: theme => ({
+    'red': theme('colors.red.500'),
+  }),
   variants: {
     extend: {
       borderWidth: ['hover'],
+      stroke: ['hover']
     },
   },
   plugins: [],

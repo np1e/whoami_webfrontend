@@ -1,6 +1,6 @@
 <template>
-    <nav class="nav bg-background">
-        <div class="nav-screen relative flex justify-between items-center  md:px-xl px-md">
+    <nav class="nav">
+        <div class="nav-screen relative flex justify-left border-b-2 border-gray-100 items-center md:px-xl px-md">
             <div class="nav__responsive-menu-button inset-y-0 left-0 flex items-center sm:hidden">
                 <button v-on:click="toggleMenu" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
@@ -14,20 +14,20 @@
                     </svg>
                 </button>
             </div>
-            <div class="nav__logo">
-                <nav-link route="/">Who Am I</nav-link>
+            <div class="nav__logo mr-12">
+                <nav-link route="/">Who Am I?</nav-link>
             </div>
-            <ul class="nav__items items center space-x-8 hidden sm:flex">
-                <li>
-                    <nav-link route="/about">How it works</nav-link>
-                </li>
-                <li>
-                    <nav-link route="/login">Log In</nav-link>
-                </li>
-                <li>
-                    <nav-button route="/create">Create Game</nav-button>
-                </li>
-            </ul>
+            <div class="nav__items flex justify-between">
+                <ul class="nav__items-left items center space-x-8 hidden sm:flex">
+                    <li>
+                        <nav-link route="/how">How it works</nav-link>
+                    </li>
+                    <li>
+                        <nav-link route="/about">About</nav-link>
+                    </li>
+                </ul>
+                <nav-link route="/submit">Submit collections</nav-link>
+            </div>
         </div>
         <!--
         Mobile menu, toggle classes based on menu state.
@@ -37,8 +37,9 @@
         <div :class="[menuOpen ? 'block' : 'hidden']" class="sm:hidden" v-scroll-lock="menuOpen">
             <div class="nav__items nav__items-responsive flex flex-col bg-background h-full w-screen px-md items-start space-y-1">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <nav-link route="/about">How it works</nav-link>
-                <nav-link route="/login">Log In</nav-link>
+                <nav-link route="/how">How it works</nav-link>
+                <nav-link route="/about">About</nav-link>
+                <nav-link route="/submit">Submit collections</nav-link>
             </div>
         </div>
     </nav>
@@ -46,7 +47,6 @@
 
 <script>
 import NavLink from '../NavLink.vue';
-import NavButton from '../NavButton.vue';
 
 export default {
     name: "Navigation",
@@ -57,7 +57,6 @@ export default {
     },
     components: {
         NavLink,
-        NavButton
     },
     methods: {
       toggleMenu: function() {
@@ -77,7 +76,7 @@ export default {
 <style lang="scss">
 .nav {
     
-    font-size: 18px;
+    font-size: 16px;
 
     .nav-screen {
       min-height: 80px;
@@ -85,7 +84,6 @@ export default {
 
   .nav__items {
     font-weight: 500;
-    line-height: 80px;
 
     &.nav__items-responsive {
         position: fixed;
@@ -95,8 +93,8 @@ export default {
   }
 
   .nav__logo {
-    font-size: 30px;
-    font-weight: 800;
+    font-size: 26px;
+    font-weight: 700;
     color: var(--primary);
   }
 }

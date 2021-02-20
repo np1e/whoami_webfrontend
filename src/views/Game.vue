@@ -1,62 +1,118 @@
 <template>
-    <div class="game">
-        <join-game-overlay :game_id="game_id" v-if="!state.hasJoinedGame"></join-game-overlay>
-        <game-header :game="game"></game-header>
-        <ul @player_joined="addPlayer">
-            <li v-for="(player, index) in players" :key="index">
-                {{ player }}
-            </li>
-        </ul>
+    <div class="game h-full">
+      <CenterCard v-if="error">
+        <div v-if="error === 'GAME_NOT_FOUND'">
+          <h2>No game found</h2>
+          <p>There is no game associated with your current session.</p>   
+        </div>
+        <div v-else-if="error === 'SESSION_EXPIRED'">
+          <h2>Session expired</h2>
+          <p>Your session has expired. That probably means the game has ended.</p>
+        </div>
+        <div v-else>
+          <h2>An error occured</h2>
+          <p>Well something went wrong there.</p>
+        </div>
+        <p>Do you want to start a new game?</p> 
+        <sl-button size="medium" class="green" @click="redirectToHome">
+          Sure!
+        </sl-button>
+      </CenterCard>
+
+      <GameWaiting :gameKey="game.key"  v-if="currentPlayer && game.state === 'WAITING'"></GameWaiting>
+      <GameInProgress v-if="currentPlayer && game.state === 'RUNNING'"></GameInProgress>
+      <GameFinished v-if="currentPlayer && game.state === 'FINISHED'"></GameFinished>
+
     </div>
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex';
 import LayoutDefault from "../components/layout/LayoutDefault.vue";
-import GameHeader from "../components/GameHeader.vue"
-import JoinGameOverlay from "../components/JoinGameOverlay.vue";
-import axios from "../mixins/axios.js";
+import WebSocket from "../utils/websocket";
+import GameWaiting from '../components/game/GameWaiting.vue';
+import GameInProgress from '../components/game/GameInProgess.vue';
+import GameFinished from '../components/game/GameFinished.vue';
+import CenterCard from '../components/CenterCard.vue';
 
 export default {
   name: "Game",
   components: {
-      GameHeader,
-      JoinGameOverlay
+    GameWaiting,
+    GameInProgress,
+    GameFinished,
+    CenterCard
   },
-  mixins: [axios],
   data: function() {
     return {
-        state: this.$store.state,
         game_id: "",
-        game: {},
-        players: [],
-        error: false,
-        loading: false
+        error: "",
+        loading: false,
+        gameState: ''
     }
   },
   methods: {
-    addPlayer: function(data) {
-        console.log(data);
-        this.players.append(data);
+    ...mapMutations(['setCurrentPlayer', 'updatePlayers', 'setWebsocket', 'updatePlayer', 'updateGame']),
+    redirectToHome() {
+      localStorage.removeItem('token');
+      this.$router.replace({ name: 'home' });
     },
-    fetchGame: function() {
-        this.game_id = this.$route.params.id;
-        this.get(`/game/${this.game_id}`, response => {
-            console.log(response);
-            this.game = response;
-            this.players = this.game.players.map(player => player.username)
-        }, (error_status, error_msg) => {
-            this.error = true;
-            console.log(error_status, error_msg);
-        });
-    }
   },
-  created: function () {
+  computed: {
+    ...mapGetters(['currentPlayer', 'players', 'websocket', 'game']),
+  },
+  created: async function () {
     this.$emit("update:layout", LayoutDefault);
-    this.fetchGame();
+
+    const token = localStorage.getItem('token');
+
+    if(!token) {
+      this.error = "SESSION_EXPIRED";
+    } else {
+      const websocket = new WebSocket();
+  
+      const onConnect = async () => {
+        const {player, game} = await this.websocket.sendToken(token);
+  
+        if(!game || !player) {
+          this.error = "GAME_NOT_FOUND";
+        } else {
+          console.log(player);
+          console.log(game);
+          this.updateGame(game);
+          this.setCurrentPlayer(player);
+          this.updatePlayers(game.players);
+          this.gameState = game.state;
+    
+          this.websocket.registerHandler('player_changed', data => {
+            console.log("player changed");
+            this.updatePlayer(JSON.parse(data).player);
+          });
+    
+          this.websocket.registerHandler('game_started', game => {
+            this.game = game;
+            this.updatePlayers(game.players);
+            this.gameState = game.state;
+          });
+
+          this.websocket.registerHandler('update_game', game => {
+            console.log("update game");
+            if (game.state === "FINISHED") {
+              setTimeout(() => {
+                this.updateGame(game)
+              }, 3000);
+            } else {
+              this.updateGame(game);
+            }
+          });
+        }
+      }
+      this.setWebsocket({websocket, onConnect});
+    }
+
   },
   watch: {
     // call again the method if the route changes
-    $route: "fetchGame",
   },
   mounted: function() {
       

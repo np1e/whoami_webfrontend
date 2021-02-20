@@ -1,164 +1,180 @@
 <template>
-  <div class="homepage">
-    <section class="section homepage-hero bg-background py-xl p-sm lg:p-xl">
-      <div class="homepage-hero__content mx-auto w-3/4 lg:w-2/3">
-        <div class="section-heading">
-          <h1 class="text-4xl md:text-6xl font-bold leading-normal md:leading-relaxed mb-8">
-            Play remotely with your friends!
-          </h1>
+  <div class="home content h-full">
+    <CenterCard>
+      <sl-form v-if="invite_key" class="join-game__form" @sl-submit="submitJoinForm">
+        <h1 class="text-gray-800 pb-4">Join a game</h1>
+        <div class="text-base">This is just a basic card. No image, no header, and no footer. Just your content.</div>
+        <div class="flex flex-row justify-between space-x-2 w-full py-6">
+          <sl-input required v-sl-model="username" name="username" type="text"></sl-input><sl-button submit>Join</sl-button>
         </div>
-        <div class="homepage-hero__creategame">
-          <form id="create-game_form" method="post" @submit.prevent="submitCreateForm" class="">
-            <div class="flex flex-col sm:flex-row sm:space-x-4">
-              <div class="flex flex-col sm:w-1/2">
-                <input v-model="game_name"
-                  placeholder="Enter a name for your game"
-                  :class="[ error ? 'border-red-500' : 'border-gray' ]"
-                  class="h-14 transition-all flex-1 placeholder-color-dark-accent rounded-md border px-md appearance-none focus:outline-none focus:ring-2 focus:ring-primary text-lg"
-                />
-              </div>
-              <custom-button class="mt-4 sm:mt-0" type="submit">Create Game</custom-button>
-            </div>
-          </form>
-          <span v-if="error" class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                  Please enter a name for your game!
-                </span>
-        </div>
-      </div>
-    </section>
-    <section class="section homepage-description bg-secondary p-xl">
-      <section class="section">
-        <div class="section-heading ">
-          <h2 class="text-2xl lg:text-4xl text-gray">
-            How to play
-          </h2>
-        </div>
-        <div class="flex flex-col space-y-12 md:space-y-0 md:flex-row justify-between">
-          <div class="">
-            <div class="block start-block">
-              <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 class="block__heading heading--4 text-gray">
-                Create a game
-              </h3>
-              <p class="block__content color-white">
-                Create a new game for you and your friends. You can set a password, 
-                a maximum amount of players and choose out of lots of collections!
-              </p>
-            </div>
-          </div>
-          <div
-            class="grid__item grid__item--tablet-up-half grid__item--desktop-up-quarter"
-          >
-            <div class="block start-block">
-              <svg class="h-12 w-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              <h3 class="block__heading heading--4 text-gray">
-                Ask questions about your character
-              </h3>
-              <p class="block__content color-white">
-                Ask the other players questions about your character to determine its identity. 
-                You can take notes so you don't ask a question twice.
-              </p>
-            </div>
-          </div>
-          <div
-            class="grid__item grid__item--tablet-up-half grid__item--desktop-up-quarter"
-          >
-            <div class="block start-block">
-              <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-              </svg>
-              <h3 class="block__heading heading--4 text-gray">
-                Answer the other players questions
-              </h3>
-              <p class="block__content color-white">
-                Answer the other players questions about their characters. 
-                The character of the player whose turn it is will be displayed for everyone else.
-              </p>
-            </div>
-          </div>
-          <div
-            class="grid__item grid__item--tablet-up-half grid__item--desktop-up-quarter"
-          >
-            <div class="block start-block">
-              <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 class="block__heading heading--4 text-gray">
-                Make a guess
-              </h3>
-              <p class="block__content color-white">
-                When you think you know enough you can take a guess at your character identity.
-                The game will either approve or disapprive automatically or there can be a vote among all players.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-    <section class="section homepage-placeholder py-xl p-sm lg:p-xl">
+      </sl-form>
       
-    </section>
+      <sl-form v-else class="create-game__form" v-on:sl-submit="submitCreateForm">
+        <h1 class="text-gray-800 pb-4">Create a game</h1>
+        <div class="text-base">This is just a basic card. No image, no header, and no footer. Just your content.</div>
+        <div class="flex flex-row justify-between space-x-2 w-full py-6">
+          <sl-input required v-sl-model="username" name="username" type="text"></sl-input>
+          <sl-button submit>Create</sl-button>
+        </div>
+        <div class="options flex flex-col mb-6">
+          <div class="mx-auto"> 
+            <sl-button size="small" @click="showOptions = !showOptions">
+              {{ showOptions ? 'Show less options' : 'Show more options' }}
+            </sl-button>
+          </div>
+          <transition name="slide">
+            <div v-if="showOptions" class="options__form py-6"> 
+              <label for="max_players" class="text-base leading-tight"> 
+                Change the maximum amount of players
+              </label>
+              <sl-range v-sl-model="max_players" name="max_players" min="2" max="15" step="1"></sl-range>
+
+              <div class="text-base leading-tight my-4"> 
+                Choose the collections from which each players character will be chosen
+              </div>
+              <div class="collections grid sm:grid-cols-2 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
+                <label v-for="collection in available_collections" :key="collection.name" class="flex items-center">
+                  <input class="focus:ring-blue-400 h-4 w-4 text-blue-600 border-gray-200 rounded hover:border-gray-600" :id="collection.name" type="checkbox" :value="collection" v-model="collections"/>
+                  <span class="ml-2 leading-tight text-base">{{ collection.name }}</span>
+                </label>
+              </div>
+            </div>
+          </transition>
+        </div>
+
+      </sl-form>
+      <sl-alert v-if="hasToken" type="warning" open>
+        <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+        <strong>There seems to be an existing session</strong><br>
+        Do you want to return to you last session?
+        <div class="inline-flex ml-3 space-x-2">
+          <sl-button @click="redirectToGame" type="warning" size="small">Yes, please!</sl-button>
+          <sl-button @click="updateToken(undefined)" type="default" size="small">No, not interested in that</sl-button>
+        </div>
+      </sl-alert>
+
+      <sl-alert v-if="error" type="danger" open>
+        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+          <strong>{{errorMessage}}</strong><br>
+          
+      </sl-alert>
+    </CenterCard>
   </div>
 </template>
 
 <script>
 import LayoutDefault from "../components/layout/LayoutDefault.vue";
-import Button from "../components/Button.vue";
+import CenterCard from "../components/CenterCard.vue";
 
 export default {
   name: "Home",
   components: {
-    "custom-button": Button,
+    CenterCard
   },
+  props: ['invite_key'],
   data: function() {
     return {
-      game_name: "",
-      error: false
+      username: "",
+      max_players: 4,
+      error: false,
+      errorMessage: "",
+      available_collections: [],
+      collections: [],
+      showOptions: false,
+      hasToken: Boolean(localStorage.getItem("token"))
     }
   },
   created: function () {
     this.$emit("update:layout", LayoutDefault);
   },
+  mounted: function() {
+    this.fetchCollections();
+  },
   methods: {
-    submitCreateForm: function() {
-      if (!this.game_name) {
+    fetchCollections: function() {
+      this.$api.getCollections(data => {
+        this.available_collections = data;
+        this.collections = this.available_collections.filter(collection => collection.default);
+      }, (error_status, error_msg) => {
         this.error = true;
-        return;
-      }
-
-      this.createPlayer();
-    },
-    createPlayer: function() {
-      this.$api.createPlayer(this.createGame, (error_status, error_msg) => {
         console.log(error_status, error_msg);
       });
     },
-    createGame: function(player) {
-      console.log(player);
-      this.$api.createGame(this.game_name, player.id, 
+    submitCreateForm: function(event) {
+      this.$api.createGame(this.username, this.max_players, this.collections,
         response => {
-          let game = response.game;
-          this.$router.push({ path: `/game/${game.id}` });
-        },
-        (error_status, error_msg) => {
+          let token = response.token;
+          console.log(token);
+          this.updateToken(token);
+          this.redirectToGame();
+        }, (error_status, error_msg) => {
+          console.log(error_status, error_msg);
+          this.error = true;
+          this.errorMessage = error_msg;
+        });
+    },
+    submitJoinForm: function() {
+      this.$api.joinGame(this.username, this.invite_key,
+        response => {
+          console.log(response.token)
+          this.updateToken(response.token);
+          this.redirectToGame();
+        }, (error_status, error_msg) => {
+          this.error = true;
+          if (error_status == 404) {
+            this.errorMessage = "There was no game found with that invite key. Are you sure you got the right link?";
+          }
           console.log(error_status, error_msg);
         });
+    },
+    updateToken: function(token) {
+      if (token) {
+        localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
+        this.hasToken = false;
+      }
+    },
+    redirectToGame: function() {
+      this.$router.push({ name: 'game' })
     }
   }
 };
 </script>
 
 <style lang="scss">
-.homepage-description {
+.card {
+  width: 70%;
+  max-width: 700px;
 
-    color: var(--light-gray);
+  sl-button {
+    margin: 0 auto;
+  }
 
-    svg {
-      stroke: var(--light-gray);
-    }
+  .options__form {
+    overflow: hidden;
+  }
 }
+
+sl-input {
+  flex-grow: 2;
+}
+
+.slide-enter, .slide-leave-to {
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+.slide-leave, .slide-enter-to {
+  transform: translateY(0%);
+}
+
+.slide-enter-active {
+  transition: all .3s ease;
+}
+
+.slide-leave-active {
+  transition: all .3s ease;
+}
+
 </style>

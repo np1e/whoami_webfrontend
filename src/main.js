@@ -1,22 +1,22 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import api from './api/api';
+import api from './api';
 import VScrollLock from 'v-scroll-lock';
+import ShoelaceModelDirective from '@shoelace-style/vue-sl-model';
 import "tailwindcss/tailwind.css";
-import "ldbutton/dist/ldbtn.css";
-import "@loadingio/loading.css/dist/loading.min.css";
 import './assets/css/index.scss';
 
 Vue.config.productionTip = false
 Vue.use(VScrollLock);
-Vue.use(Vuex);
+Vue.use(ShoelaceModelDirective);
+Vue.config.ignoredElements = [/^sl-/];
+Vue.prototype.$api = api;
+Vue.prototype.$env = process.env;
 
 new Vue({
   router,
   store,
-  api,
   render: h => h(App),
 }).$mount('#app')

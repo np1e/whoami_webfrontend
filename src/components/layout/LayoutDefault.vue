@@ -1,7 +1,7 @@
 <template>
-  <div class="layout-default container max-w-screen-2xl flex flex-col h-screen justify-between py-4">
+  <div class="layout-default max-w-screen flex flex-col h-screen justify-between">
     <navigation />
-    <main class="mb-auto">
+    <main class="mb-auto h-full">
       <slot/>
     </main>
     <custom-footer />

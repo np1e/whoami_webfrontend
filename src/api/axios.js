@@ -1,6 +1,6 @@
 const axios = require('axios');
 const instance = axios.create({
-    baseURL: process.env.VUE_APP_APP_URL,
+    baseURL: process.env.VUE_APP_BACKEND_URL,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -22,7 +22,7 @@ export default {
                 on_success(response.data);
             })
             .catch(function(error) {
-                on_error(error.status, error.data);
+                on_error(error.response.status, error.response.data);
             });
     },
     put: function(endpoint, data, success_callback, error_callback, params = {}) {
