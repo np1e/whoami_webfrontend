@@ -68,10 +68,12 @@ export default {
     },
     methods: {
         startNewGame: function() {
-            this.websocket.emit('startNewRound');
+            this.websocket.socket.emit('startNewRound');
         },
         leave: function() {
-            this.websocket.emit('leaveGame');
+            this.websocket.socket.emit('leaveGame');
+            localStorage.removeItem("token");
+            this.$router.replace({ name: 'home' });
         },
         beforeAppear: function(el) {
             el.style.opacity = 0;
