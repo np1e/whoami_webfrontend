@@ -13,16 +13,25 @@ export default {
                 success_callback(response.data);
             })
             .catch(function(error) {
-                error_callback(error.status, error.data);
+                console.log(error.message);
+                if(error.message == "Network Error") {
+                    error_callback("NETWORK", error)
+                } else {
+                    error_callback(error.code, error.data);
+                }
             });
     },
-    post: function(endpoint, data, on_success, on_error, params = {}) {
+    post: function(endpoint, data, success_callback, error_callback, params = {}) {
         instance.post(endpoint, data, { params: params })
             .then(function(response) {
-                on_success(response.data);
+                success_callback(response.data);
             })
             .catch(function(error) {
-                on_error(error.response.status, error.response.data);
+                if(error.message == "NetworkError") {
+                    error_callback("NETWORK", error)
+                } else {
+                    error_callback(error.code, error.data);
+                }
             });
     },
     put: function(endpoint, data, success_callback, error_callback, params = {}) {
@@ -31,7 +40,11 @@ export default {
                 success_callback(response.data);
             })
             .catch(function(error) {
-                error_callback(error.status, error.data);
+                if(error.message == "NetworkError") {
+                    error_callback("NETWORK", error)
+                } else {
+                    error_callback(error.code, error.data);
+                }
             });
     },
     del: function(endpoint, success_callback, error_callback) {
@@ -40,7 +53,11 @@ export default {
                 success_callback(response.data);
             })
             .catch(function(error) {
-                error_callback(error.status, error.data);
+                if(error.message == "NetworkError") {
+                    error_callback("NETWORK", error)
+                } else {
+                    error_callback(error.code, error.data);
+                }
             });
     }
 }

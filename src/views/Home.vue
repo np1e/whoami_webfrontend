@@ -29,15 +29,17 @@
               </label>
               <sl-range v-sl-model="max_players" name="max_players" min="2" max="15" step="1"></sl-range>
 
+              <div v-if="availableCollections">
               <div class="text-base leading-tight my-4"> 
                 Choose the collections from which each players character will be chosen
               </div>
               <div class="collections grid sm:grid-cols-2 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
-                <label v-for="collection in available_collections" :key="collection.name" class="flex items-center">
+                  <label v-for="collection in availableCollections" :key="collection.name" class="flex items-center">
                   <input class="focus:ring-blue-400 h-4 w-4 text-blue-600 border-gray-200 rounded hover:border-gray-600" :id="collection.name" type="checkbox" :value="collection" v-model="collections"/>
                   <span class="ml-2 leading-tight text-base">{{ collection.name }}</span>
                 </label>
               </div>
+            </div>
             </div>
           </transition>
         </div>
@@ -78,7 +80,8 @@ export default {
       max_players: 4,
       error: false,
       errorMessage: "",
-      available_collections: [],
+      errorCode: "",
+      availableCollections: [],
       collections: [],
       showOptions: false,
       hasToken: Boolean(localStorage.getItem("token"))
@@ -93,11 +96,12 @@ export default {
   methods: {
     fetchCollections: function() {
       this.$api.getCollections(data => {
-        this.available_collections = data;
-        this.collections = this.available_collections.filter(collection => collection.default);
-      }, (error_status, error_msg) => {
+        this.availableCollections = data;
+        this.collections = this.availableCollections.filter(collection => collection.default);
+      }, (error_code, error) => {
         this.error = true;
-        console.log(error_status, error_msg);
+        this.errorCode = error_code;
+        this.errorMessage = "Something went wrong with fetching things from our backend servers. You might wanna try again.";
       });
     },
     submitCreateForm: function(event) {
