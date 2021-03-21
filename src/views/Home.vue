@@ -30,16 +30,16 @@
               <sl-range v-sl-model="max_players" name="max_players" min="2" max="15" step="1"></sl-range>
 
               <div v-if="availableCollections">
-              <div class="text-base leading-tight my-4"> 
-                Choose the collections from which each players character will be chosen
-              </div>
-              <div class="collections grid sm:grid-cols-2 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
+                <div class="text-base leading-tight my-4"> 
+                  Choose the collections from which each players character will be chosen
+                </div>
+                <div class="collections grid sm:grid-cols-2 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
                   <label v-for="collection in availableCollections" :key="collection.name" class="flex items-center">
-                  <input class="focus:ring-blue-400 h-4 w-4 text-blue-600 border-gray-200 rounded hover:border-gray-600" :id="collection.name" type="checkbox" :value="collection" v-model="collections"/>
-                  <span class="ml-2 leading-tight text-base">{{ collection.name }}</span>
-                </label>
+                    <input class="focus:ring-blue-400 h-4 w-4 text-blue-600 border-gray-200 rounded hover:border-gray-600" :id="collection.name" type="checkbox" :value="collection" v-model="collections"/>
+                    <span class="ml-2 leading-tight text-base">{{ collection.name }}</span>
+                  </label>
+                </div>
               </div>
-            </div>
             </div>
           </transition>
         </div>
@@ -58,7 +58,6 @@
       <sl-alert v-if="error" type="danger" open>
         <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
           <strong>{{errorMessage}}</strong><br>
-          
       </sl-alert>
     </CenterCard>
   </div>
@@ -91,7 +90,9 @@ export default {
     this.$emit("update:layout", LayoutDefault);
   },
   mounted: function() {
-    this.fetchCollections();
+    if(!this.invite_key) {
+      this.fetchCollections();
+    }
   },
   methods: {
     fetchCollections: function() {
