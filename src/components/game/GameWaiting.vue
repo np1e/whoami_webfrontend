@@ -6,7 +6,7 @@
                 <h2>Hello {{ currentPlayer.username }}!</h2>
                 <sl-button v-if="currentPlayer.is_creator" :disabled="!allReady" size="medium" class="green" @click="startGame">Start Game</sl-button>
             </div>
-            <div class="game__status-invite">
+            <div v-if="currentPlayer.is_creator" class="game__status-invite">
                 <p class="text-base text-center leading-tight pb-5">
                     Send the following link to your friends, so they can join the game.
                 </p>
@@ -66,7 +66,6 @@ export default {
             this.websocket.socket.emit('startGame');
         },
         copyUrl: function() {
-
             navigator.clipboard.writeText(this.inviteUrl).then(() => {
                 this.copied = true;
                 setTimeout(() => {
