@@ -17,16 +17,14 @@
             <div class="nav__logo mr-12">
                 <nav-link route="/">Who Am I?</nav-link>
             </div>
-            <div class="nav__items flex justify-between">
-                <ul class="nav__items-left items center space-x-8 hidden sm:flex">
-                    <li>
+            <div class="nav__items flex justify-between items-center flex-grow">
+                <div class="nav__items-left items center space-x-8 hidden sm:flex">
                         <nav-link route="/how">How it works</nav-link>
-                    </li>
-                    <li>
                         <nav-link route="/about">About</nav-link>
-                    </li>
-                </ul>
+                </div>
+                <div class="nav__items-right items-center space-x-8 hidden sm:flex">
                 <nav-link route="/submit">Submit collections</nav-link>
+                </div>
             </div>
         </div>
         <!--
