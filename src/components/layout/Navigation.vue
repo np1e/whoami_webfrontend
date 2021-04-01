@@ -19,11 +19,12 @@
             </div>
             <div class="nav__items flex justify-between items-center flex-grow">
                 <div class="nav__items-left items center space-x-8 hidden sm:flex">
-                        <nav-link route="/how">How it works</nav-link>
-                        <nav-link route="/about">About</nav-link>
+                    <nav-link route="/how">How it works</nav-link>
+                    <nav-link route="/about">About</nav-link>
                 </div>
                 <div class="nav__items-right items-center space-x-8 hidden sm:flex">
-                <nav-link route="/submit">Submit collections</nav-link>
+                    <nav-link route="/submit">Submit collections</nav-link>
+                    <sl-button @click="$emit('reportBug')">Report a bug</sl-button>
                 </div>
             </div>
         </div>

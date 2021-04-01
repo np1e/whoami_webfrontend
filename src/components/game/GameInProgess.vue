@@ -20,7 +20,7 @@
             <sl-card v-if="ownTurn || game.awaitingGuessVote || playersTurn.guessed" class="game__guess guess-card">
                 <div>
                     <div v-if="game.awaitingGuessVote">
-                        <h2 class="text-base">
+                        <h2 class="text-base mt-2 mb-2">
                             {{ ownTurn ? 'You' : playersTurn.username }} guessed {{ guess }}.
                         </h2>
                         <p v-if="!ownTurn" class="text-base leading-tight mb-4">
@@ -29,8 +29,8 @@
                         <p v-else class="text-base leading-tight mb-4">
                             We couldn't automatically verfiy your guess, but the other players will vote whether your guess is correct.
                         </p>
-                        <div class="flex">
-                            <div v-if="!ownTurn && !initialGuess">
+                        <div class="flex-col">
+                            <div v-if="!ownTurn" class="inline-flex space-x-2">
                                 <sl-button size="small" @click="voteGuess(true)">Yep, sure is!</sl-button>
                                 <sl-button size="small" @click="voteGuess(false)">Nope, not even close</sl-button>
                             </div>

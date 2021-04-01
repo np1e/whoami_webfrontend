@@ -90,7 +90,7 @@ export default {
           });
     
           this.websocket.registerHandler('game_started', game => {
-            this.game = game;
+            this.updateGame(game);
             this.updatePlayers(game.players);
             this.gameState = game.state;
           });
@@ -115,7 +115,7 @@ export default {
     // call again the method if the route changes
   },
   mounted: function() {
-      
+      console.log("Game view mounted");
   }
 }
 </script>
