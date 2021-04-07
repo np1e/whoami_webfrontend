@@ -1,12 +1,16 @@
 
 :root {
-    --primary: #AC3B61;
-    --primary-dark: #811a3c;
-    --secondary: #123C69;
-    --background: #fbf7ed;
-    --light-gray: #FAFAFA;
-    --dark-accent: #BAB2B5;
-    --light-accent: #EDC7B7;
+    --primary: #5cd3a1;
+    --green: #44c662;
+    --red: #a53f3f;
+    --yellow: yellow;
+    --orange: #f96d00;
+    --background: #FAFAFA;
+    --gray: #52575d;
+    --sl-color-primary: var(--primary);
+    --sl-color-success: var(--red);
+    --sl-color-danger: var(--red);
+    --sl-color-warning: var(--yellow);
 }
 
 body {
@@ -15,15 +19,129 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: var(--primary);
     font-weight: 600
 }
 
+h1 {
+    font-size: 35px;
+}
+
 h2 {
+    font-size: 35px;
     margin: 2rem 0;
 }
 
 h3 {
+    font-size: 20px;
     margin: 1rem 0;
 }
 
+input {
+    padding: 8px 12px;
+}
+
+sl-button {
+
+    &:not(disabled) {
+
+        &.green {
+            &::part(base) {
+                background-color: var(--green);
+                border-color: white;
+            }
+            &::part(label) {
+                color: white;
+            }
+            &::part(base):hover {
+                background: white;
+                border-color: var(--green);
+            }
+            &::part(label):hover {
+                color: var(--green);
+            }
+        }
+
+        &.red {
+            &::part(base) {
+                background-color: var(--red);
+            }
+            &::part(label) {
+                color: white;
+            }
+            &::part(base):hover {
+                background: white;
+                border-color: var(--red);
+            }
+            &::part(label):hover {
+                color: var(--red);
+            }
+        }
+
+        &.info {
+            &::part(base) {
+                background-color: var(--gray);
+            }
+            &::part(label) {
+                color: white;
+            }
+            &::part(base):hover {
+                background: white;
+                border-color: var(--gray);
+            }
+            &::part(label):hover {
+                color: var(--gray);
+            }
+
+            &.reverse {
+                &::part(base) {
+                    background-color:white;
+                    border: 1px solid  var(--gray);
+                }
+                &::part(label) {
+                    color:  var(--gray);
+                }
+                &::part(base):hover {
+                    background:  var(--gray);
+                    border-color: white;
+                }
+                &::part(label):hover {
+                    color: white;
+                }
+            }
+        }
+
+        &.orange {
+            &::part(base) {
+                background-color: var(--orange);
+            }
+            &::part(label) {
+                color: white;
+            }
+            &::part(base):hover {
+                background: white;
+                border-color: var(--orange);
+            }
+            &::part(label):hover {
+                color: var(--orange);
+            }
+
+            &.reverse {
+                &::part(base) {
+                    background-color: white;
+                    border: 1px solid var(--orange);
+                }
+                &::part(label) {
+                    color: var(--orange);
+                }
+                &::part(base):hover {
+                    background: var(--orange);
+                    border: 0;
+                }
+                &::part(label):hover {
+                    color: white;
+                }
+            }
+        }
+    }
+    
+}
