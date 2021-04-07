@@ -5,5 +5,10 @@ module.exports = {
 
             }
         }
+    },
+    chainWebpack: config => {
+        config.externals({
+            'velocity': 'Velocity',
+        })
     }
 }
